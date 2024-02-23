@@ -1,5 +1,13 @@
-export default function MyNotes() {
+import NoteForm from './NoteForm';
+
+export default function MyNotes({ notes, handleCreateNote }) {
     return (
-      <h1>No Notes Yet</h1>
+        <div>
+            <h1>Notes</h1>
+            <NoteForm handleCreateNote={handleCreateNote} />
+            {notes && notes.length ? notes.map((note, idx) => (
+                <p key={idx}>{note.text} {(note.createdAt).toLocaleString()}</p>
+            )) : <p>No Notes Yet</p>} 
+        </div>
     );
   }

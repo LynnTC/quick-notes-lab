@@ -1,36 +1,33 @@
-import React, { Component } from 'react';
+import {useState} from "react";
 
-export default class NoteForm extends Component {
-    state = {
-        note: '',
-    };
 
-    handleChange = (e) => {
-        this.setState({
-            ...this.state,
-            [e.target.name]: e.target.value,
-        });
-    };
+export default function NoteForm({handleCreateNote}) {
 
-    handleSubmit = (e) => {
-        console.log('hi')
-    };
+  const [Note, setNote] = useState({
+    text: '',
 
-    render() {
-        return (
-            <div className="form-container">
-                <form autoComplete="off" onSubmit={this.handleSubmit}>
-                    <label>Note:</label>
-                    <input
-                        type="text"
-                        name="note"  // Corrected attribute from 'note' to 'name'
-                        value={this.state.note}
-                        onChange={this.handleChange}
-                        required
-                    />
-                    <button type="submit">Add Note</button>
-                </form>
-            </div>
-        );
-    }
+  })
+
+  async function handleSubmit(evt) {
+    handleCreateNote(Note);
+    evt.preventDefault();
+  }
+
+  function handleChange(evt) {
+    const noteForm = {...Note, [evt.target.name]: evt.target.value};
+    setNote(noteForm);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input 
+      name="text"
+      value={Note.text}
+      onChange={handleChange}
+      required
+      />
+      <button type="Submit">Add Note</button>
+    </form>
+  )
+  
 }
